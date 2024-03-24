@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "www" {
+data "aws_iam_policy_document" "static_site" {
   statement {
     sid    = "AllowCloudFront"
     effect = "Allow"
@@ -15,22 +15,22 @@ data "aws_iam_policy_document" "www" {
     ]
 
     resources = [
-      "${aws_s3_bucket.www.arn}/*"
+      "${aws_s3_bucket.static_site.arn}/*"
     ]
   }
 }
 
-resource "aws_s3_bucket" "www" {
-  bucket_prefix = "www"
+resource "aws_s3_bucket" "static_site" {
+  bucket_prefix = "site"
 }
 
-resource "aws_s3_bucket_policy" "www" {
-  bucket = aws_s3_bucket.www.id
-  policy = data.aws_iam_policy_document.www.json
+resource "aws_s3_bucket_policy" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+  policy = data.aws_iam_policy_document.static_site.json
 }
 
 resource "aws_s3_bucket_object" "index_html" {
-  bucket       = aws_s3_bucket.www.id
+  bucket       = aws_s3_bucket.static_site.id
   key          = "index.html"
   source       = var.index_html_file_path
   content_type = "text/html"

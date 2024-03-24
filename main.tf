@@ -22,12 +22,14 @@ module "mo_static_site_s3" {
   index_html_file_path                      = var.index_html_file_path
 }
 
-module "mo_cloudfront_with_custom_domain" {
-  source = "./modules/cloudfront_with_custom_domain"
+module "mo_cloudfront_s3_with_custom_domain" {
+  source = "./modules/cloudfront_s3_with_custom_domain"
 
   s3_bucket = {
     id                   = module.mo_static_site_s3.id
     regional_domain_name = module.mo_static_site_s3.regional_domain_name
   }
   cloudfront_origin_access_identity_cloudfront_access_identity_path = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
+  parent_domain_name                                                = var.parent_domain_name
+  sub_domain_name_prefix                                            = var.sub_domain_name_prefix
 }

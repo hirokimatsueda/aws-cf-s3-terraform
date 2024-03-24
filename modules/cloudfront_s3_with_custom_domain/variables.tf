@@ -8,3 +8,11 @@ variable "s3_bucket" {
 variable "cloudfront_origin_access_identity_cloudfront_access_identity_path" {
   type = string
 }
+
+variable "parent_domain_name" {
+  type = string
+}
+
+variable "sub_domain_name_prefix" {
+  type = string
+}
